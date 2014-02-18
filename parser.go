@@ -7,10 +7,6 @@ import (
 	"strings"
 )
 
-const (
-	module = "raccoon"
-)
-
 type TokenHandler func(html.Token) error
 
 type parser struct {

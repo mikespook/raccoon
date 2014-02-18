@@ -25,17 +25,12 @@ func main() {
 		return
 	}
 
-	r, err := raccoon.New(url, script)
-	if err != nil {
+	r := raccoon.New(url)
+	l := raccoon.LuaWrap(r)
+	defer l.Close()
+	if err := l.DoFile(script); err != nil {
 		fmt.Println(err)
 		os.Exit(2)
-		return
-	}
-	defer r.Close()
-
-	if err := r.Parse(); err != nil {
-		fmt.Println(err)
-		os.Exit(3)
 		return
 	}
 }

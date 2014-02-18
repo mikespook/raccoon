@@ -68,10 +68,10 @@ end
 
 local err
 
-raccoon.Bind(raccoon.Token.SelfClosingTag, SelfClosingTagToken)
-raccoon.Bind(raccoon.Token.StartTag, StartTagToken)
-raccoon.Bind(raccoon.Token.EndTag, EndTagToken)
-raccoon.Bind(raccoon.Token.Text, TextToken)
+raccoon.Html(raccoon.Token.SelfClosingTag, SelfClosingTagToken)
+raccoon.Html(raccoon.Token.StartTag, StartTagToken)
+raccoon.Html(raccoon.Token.EndTag, EndTagToken)
+raccoon.Html(raccoon.Token.Text, TextToken)
 raccoon.Parse()
 
 json = require("json")
