@@ -19,7 +19,41 @@ Install the CLI command:
 Usage
 =====
 
- #TODO
+Raccoon's parser can be used for parsing html in Golang application directly:
+
+'''go
+p := raccoon.New("http://www.example.com/")
+p.Html(html.SelfClosingTagToken, func(token html.Token) error {
+	if token.DataAtom.String() != "meta" {
+		return fmt.Errorf("meta is expected, got %s", token.DataAtom.String())
+	}
+	return nil
+})
+if err := r.Parse(); err != nil {
+	// handling error
+}
+'''
+
+Or using lua scripts:
+
+'''go
+p := raccoon.New("http://www.example.com/")
+l := raccoon.LuaWrap(p)
+if err := l.DoFile("foobar.lua"); err != nil {
+	// handling error
+}
+'''
+
+'''lua
+function SelfClosingTagToken(token)
+	if token.DataAtom ~= "meta" then
+		error("meta is expected, got " .. token.DataAtom)
+	end
+end
+
+raccoon.Html(raccoon.Token.SelfClosingTag, SelfClosingTagToken)
+raccoon.Parse()
+'''
 
 Contributors
 ============
