@@ -5,6 +5,8 @@ import (
 	"io"
 	"net/http"
 	"strings"
+	"bytes"
+	"io/ioutil"
 )
 
 type TokenHandler func(html.Token) error
@@ -33,13 +35,16 @@ func (p *parser) Parse() error {
 		return err
 	}
 	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return err
+	}
+	buf := bytes.NewBuffer(body)
 	if p.writer != nil {
-		if _, err := io.Copy(p.writer, resp.Body); err != nil {
-			return err
-		}
+		p.writer.Write(buf.Bytes())
 	}
 	if strings.Contains(resp.Header.Get("Content-Type"), "html") {
-		tokenizer := html.NewTokenizer(resp.Body)
+		tokenizer := html.NewTokenizer(buf)
 		if err := p.html(tokenizer); err != nil {
 			return err
 		}

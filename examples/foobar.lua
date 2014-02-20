@@ -29,3 +29,15 @@ raccoon.Html(raccoon.Token.EndTag, EndTagToken)
 raccoon.Html(raccoon.Token.Text, TextToken)
 raccoon.Output(Output)
 raccoon.Parse()
+
+if sct ~= 3 then
+	error("SelfClosingTag = " .. sct)
+end
+
+if p ~= 0 then
+	error("PairTag = " .. p)
+end
+
+if t ~= 22 then
+	error("TextTag = " .. t)
+end
